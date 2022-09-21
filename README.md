@@ -44,9 +44,9 @@ Executed slow_query scope five times in sequential , load_async and query_pipeli
 
 | Query execution |     Time              |
 | --------------- | --------------------- |
-| sequential      | 25.07171892900078     |
+| sequential      | 25.075979429002473    |
 | Query Pipeline  | 17.024850215999322    |
-| load_async      | 25.089943262000816    |
+| load_async      | 25.072874052999396    |
 
 
 ## Run tests
