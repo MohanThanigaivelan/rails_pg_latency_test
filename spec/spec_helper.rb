@@ -13,6 +13,8 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+SPEC_STATS        = {}
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -34,6 +36,20 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
+
+  config.after(:suite) do
+
+    puts "\n-----------------------"
+    puts "Spec Performance Report"
+    puts "-----------------------"
+
+    SPEC_STATS.each_with_index do |(spec, took), index|
+      puts "\n" if index%3 == 0
+      puts "#{(spec.titlecase + " latency").colorize(:green)} - #{took.to_s.colorize(:yellow)} secs"
+    end
+
+  end
+
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
