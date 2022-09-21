@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/Rails-Docker
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - toxiproxy
+  toxiproxy:
+    image: shopify/toxiproxy 
+    expose:
+      - "8474"
+    ports:
+      - "22001:22001"
+      - "8474:8474"
+        
+volumes:
+  dbdata:    
