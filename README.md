@@ -21,8 +21,8 @@ This project uses [Toxiproxy](https://github.com/Shopify/toxiproxy) to add laten
 User model has a slow_query scope. 
 
 ```sh
-scope :slow_query, -> {
-        where("SELECT true FROM pg_sleep(3)") } 
+scope :slow_query, ->(time) {
+        where("SELECT true FROM pg_sleep(?)", time) } 
 ```
 
 Each test case queries the user table five times with the above scope.

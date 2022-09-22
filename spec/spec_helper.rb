@@ -45,7 +45,7 @@ RSpec.configure do |config|
 
     SPEC_STATS.each_with_index do |(spec, took), index|
       puts "\n" if index%3 == 0
-      puts "#{(spec.titlecase + " latency").colorize(:green)} - #{took.to_s.colorize(:yellow)} secs"
+      puts "#{(spec.titlecase).colorize(:green)} - #{took.to_s.colorize(:yellow)} secs"
     end
 
   end
