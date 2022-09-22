@@ -1,6 +1,6 @@
 # README
 
-## Starting application
+## Getting started
 
 You'll need to have Docker installed. To start up the application in your local Docker environment:
 
@@ -25,8 +25,7 @@ scope :slow_query, -> {
         where("SELECT true FROM pg_sleep(3)") } 
 ```
 
-Executed slow_query scope five times in sequential , load_async and query_pipeline mode .
-
+Each test case queries the user table five times with the above scope.
 
 ## Result
 
