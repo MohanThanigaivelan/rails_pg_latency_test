@@ -1,6 +1,6 @@
 # README
 
-## Starting application
+## Getting started
 
 You'll need to have Docker installed. To start up the application in your local Docker environment:
 
