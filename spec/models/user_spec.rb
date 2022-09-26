@@ -4,16 +4,17 @@ RSpec.describe User, type: :model do
   NETWORK_LATENCY_IN_MILLISECONDS = [5, 10, 50] 
   QUERY_DELAY_IN_MILLISECONDS = [50,100, 200]
 
-  describe "Warming up" do
+
+  describe "Hypothesis" do
+   let!(:user) { FactoryBot.create(:user) }
+
+   context "Warming up" do
     it "Executing queries to set up the connection pool" do
-      5.times do
+      8.times do
         User.slow_query(0).load_async.to_a
       end
     end
   end
-  
-  describe "Hypothesis" do
-   let!(:user) { FactoryBot.create(:user) }
    
    NETWORK_LATENCY_IN_MILLISECONDS.each do |latency|
     QUERY_DELAY_IN_MILLISECONDS.each do |delay|
