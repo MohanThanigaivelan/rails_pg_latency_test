@@ -67,7 +67,7 @@ rspec
 
 ## load_async setup
 
-When the queries are executed with load_async option for the first time, Rails tries to establish new database connections and hence the queries take longer. An initial test case has been added to setup the pool of active connections, which could then be used by the subsequent test cases.
+When the queries are executed with load_async option for the first time, Rails tries to establish new database connections and hence the queries take longer. An initial step has been added to setup the pool of active connections, which could then be used by the subsequent test cases.
 
 ## load_async limitation
 
