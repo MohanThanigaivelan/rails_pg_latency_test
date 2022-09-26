@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   describe "Hypothesis" do
     let!(:user) { FactoryBot.create(:user) }
 
-    it "Executing queries to set up the connection pool" do
+    before(:all) do
       8.times do
         User.slow_query(0).load_async.to_a
       end
