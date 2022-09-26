@@ -69,4 +69,10 @@ rspec
 
 When the queries are executed with load_async option for the first time, Rails tries to establish new database connections and hence the queries take longer. An initial test case has been added to setup the pool of active connections, which could then be used by the subsequent test cases.
 
+## load_async Limitation
+
+- load_async can only be called on ActiveRecord::Relation instance. Hence, load_async doesn't work on some finder_methods such as find , find_by, first, last. 
+- load_async queries are never lazy loaded but work similarly to calling to_a on an ActiveRecord_Relation object in a separate thread.
+- load_async query inside a transaction would execute in foreground.
+
 
