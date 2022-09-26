@@ -76,3 +76,7 @@ When the queries are executed with load_async option for the first time, Rails t
 - load_async query inside a transaction would execute in foreground.
 
 
+## Observation on Query pipeline
+
+When using query pipeline mode , it is observed that it saves time of (no_of_queries - 1) * network_latency . 
+
