@@ -2,14 +2,15 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   NETWORK_LATENCY_IN_MILLISECONDS = [5, 10, 50] 
-  QUERY_DELAY_IN_MILLISECONDS = [50,100, 200]
+  QUERY_DELAY_IN_MILLISECONDS = [1,3, 5]
+  NO_OF_QUERIES = 10
 
 
   describe "Hypothesis" do
     let!(:user) { FactoryBot.create(:user) }
 
     before(:all) do
-      8.times do
+      5.times do
         User.slow_query(0).load_async.to_a
       end
     end
@@ -23,7 +24,7 @@ RSpec.describe User, type: :model do
             queries = []
             time = Benchmark.measure {
               User.uncached do
-                5.times do
+                NO_OF_QUERIES.times do
                   queries << User.slow_query(delay* 0.001)
                 end
                 queries.each do |query|
@@ -41,7 +42,7 @@ RSpec.describe User, type: :model do
           Toxiproxy[:postgres].toxic(:latency, latency: latency).apply do
             time = Benchmark.measure {
               conn.enter_pipeline_mode
-              5.times do 
+              NO_OF_QUERIES.times do
                 conn.send_query("SELECT users.* FROM users WHERE (SELECT true FROM pg_sleep(#{delay* 0.001}));")
                 conn.pipeline_sync
               end
@@ -51,7 +52,7 @@ RSpec.describe User, type: :model do
                 if result.try(:values) && !result.values.empty?
                  
                   non_nil_results += 1
-                  if non_nil_results == 5
+                  if non_nil_results == NO_OF_QUERIES
                     break
                   end
                 end
@@ -68,7 +69,7 @@ RSpec.describe User, type: :model do
           queries = []
           Toxiproxy[:postgres].toxic(:latency, latency: latency).apply do
             time = Benchmark.measure {
-              5.times do 
+              NO_OF_QUERIES.times do
                 queries << User.slow_query(delay* 0.001).load_async
               end
               queries.each do |query|
